@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-test-pod
+spec:
+  serviceAccountName: default
+  containers:
+  - name: dns-test-container
+    imagePullPolicy: Always
+    image: sefiacr.azurecr.io/dns:local
+    volumeMounts:
+    - name: host-volume
+      mountPath: /host
+    - name: bin
+      mountPath: /bin
+    - name: etc
+      mountPath: /etc
+    - name: opt
+      mountPath: /opt
+    - name: usr
+      mountPath: /usr
+    - name: proc
+      mountPath: /proc
+    - name: run
+      mountPath: /run
+    - name: var
+      mountPath: /var
+    - name: cgroup
+      mountPath: /sys/fs/cgroup
+    - name: bpffs
+      mountPath: /sys/fs/bpf
+    - name: debugfs
+      mountPath: /sys/kernel/debug
+    - name: oci
+      mountPath: /oci
+    securityContext:
+      seLinuxOptions:
+        type: unconfined_t
+      capabilities:
+        add: ["SYS_ADMIN", "SYS_RESOURCE", "SYS_PTRACE", "SYSLOG", "IPC_LOCK", "NET_RAW"]
+      privileged: true
+  volumes:
+  - name: host-volume
+    hostPath:
+      path: /
+      type: Directory
+  - name: bin
+    hostPath:
+      path: /bin
+      type: Directory
+  - name: etc
+    hostPath:
+      path: /etc
+      type: Directory
+  - name: opt
+    hostPath:
+      path: /opt
+      type: Directory
+  - name: usr
+    hostPath:
+      path: /usr
+      type: Directory
+  - name: proc
+    hostPath:
+      path: /proc
+      type: Directory
+  - name: run
+    hostPath:
+      path: /run
+      type: Directory
+  - name: var
+    hostPath:
+      path: /var
+      type: Directory
+  - name: cgroup
+    hostPath:
+      path: /sys/fs/cgroup
+      type: Directory
+  - name: bpffs
+    hostPath:
+      path: /sys/fs/bpf
+      type: Directory
+  - name: debugfs
+    hostPath:
+      path: /sys/kernel/debug
+      type: Directory
+  - name: oci
+    emptyDir: {}
